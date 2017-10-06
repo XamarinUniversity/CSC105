@@ -1,6 +1,6 @@
-# CSC105 - Shifting from Console to Mobile 
+# CSC105 - Building a Console Application
 
-This repository contains exercises for the Xamarin University [CSC105 - Shifting from Console to Mobile ](http://university.xamarin.com/classes/#csc105-shifting-from-console-to-mobile) training course.
+This repository contains exercises for the Xamarin University [CSC105 - Building a Console Application](http://university.xamarin.com/classes/#csc105-shifting-from-console-to-mobile) training course.
 
 Xamarin University offers live and self-guided training on app development for Windows, iOS, and Android. Our self-guided courses are free and let you earn credit towards your Xamarin certification. You can upgrade to a full Xamarin University subscription to get unlimited live instructor-led courses from our extensive catalog and take a certification exam. Please visit [Xamarin University](https://university.xamarin.com/) to learn more or [start a trial subscrption](https://www.xamarin.com/university#request-trial).
 
