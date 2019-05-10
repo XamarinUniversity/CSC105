@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+    <title>Exercise 4: Define and invoke methods</title>
+    <link rel="stylesheet" type="text/css" href="./res/styles/normalize.css">
+    <link rel="stylesheet" type="text/css" href="./res/styles/prettify.css" />
+    <link rel="stylesheet" type="text/css" href="./res/styles/styles.css">
+</head>
+
+<body>
+    <!-- Use the same title as the StartHere -->
+    <header>Learning C# with Xamarin: Building a Console Application</header>
+
+   	<section id="main">
+
+		<h1 id="page-title"></h1>
+
+		<h2>Duration</h2>
+		<p>25 minutes</p>
+
+		<!-- - - - - - - - - Goals - - - - - - - - -->
+
+		<h2 id="goals">Lab goals</h2>
+		<p>
+			In this exercise, you will complete the journal application by creating methods inside the <code>Journal</code>
+            class to lock and unlock. You will then finish the console menu system by invoking the
+            correct methods on the journal. To complete the exercise, you will perform the following steps:
+      </p>
+
+
+      <ol>
+         <li>Create a lock and unlock method in the <code>Journal</code> class.</li>
+         <li>Write the logic for all of the menu options in the <code>Main</code> method.</li>
+         <li>Spice up the application by adding some console color.</li>
+       </ol>
+
+      <p>When you are finished, your application will look like:</p>
+      <img src="./res/images/completed-lab4.PNG" width="675" height="800" />
+
+
+		<!-- - - - - - - - - Steps - - - - - - - - -->
+		<h1 id="steps">Steps</h1>
+      <p>
+         Try to use the picture and above steps to complete the lab exercise, referring to the slides if you need any help in creating the journal application.
+         You can also use the following step-by-step instructions to fill in any knowledge gaps.
+      </p>
+
+		<h2>Create lock and unlock methods</h2>
+		<ol>
+         <li>
+            The <code>Journal</code> is designed to be locked and unlocked so lets start with creating methods to do both. Open <b>Journal.cs</b>
+             and create a method called <code>UnlockJournal</code>. The method should return a <code>bool</code> and accept a <code>string</code> parameter. Use the return type to indicate
+             if the <code>Journal</code> was succesfully unlocked, and the parameter will be the attempted password.
+             <p class="hintblock"><b>Hint:</b> Use the <code>journalUnlocked</code> field to unlock the journal.</p>
+             <p class="indent-none">
+                 <a href="#" onclick="toggleCode(this, 'intvar'); return false;" class="uiitem">Show Code</a><div id="intvar" style="display:none;">
+<pre class="prettyprint">
+public bool UnlockJournal(string password)
+{
+     if (journalPassword == password)
+     {
+          journalUnlocked = true;
+          return true;
+     }
+     else
+          return false;
+}
+</pre>
+                 </div>
+             </p>
+         </li>
+         <li>
+             Next, we're going to create a method called <code>LockJournal</code>. This method should return <code>void</code> and have no parameters.
+             <p class="indent-none">
+                 <a href="#" onclick="toggleCode(this, 'menu'); return false;" class="uiitem">Show Code</a><div id="menu" style="display:none;">
+<pre class="prettyprint">
+public void LockJournal()
+{
+     journalUnlocked = false;
+}
+</pre>
+                 </div>
+             </p>
+         </li>
+
+      </ol>
+
+      <h2>Implement console menu logic</h2>
+      <p>
+         Now that the <code>Journal</code> class is complete we're going to finish implementing the console menu.
+      </p>
+
+      <ol>
+          <li>
+              Navigate to <b>Program.cs</b> and find the <code>switch</code> statement
+              inside the <code>Main</code> method.
+          </li>
+         <li>
+            Let's begin with implementing the unlock feature. If you've been following the exercises
+             this will be <code>case 1</code> in the switch statement. In order to unlock the journal
+             we need a password, so lets begin with prompting the user to enter a password.
+             <p class="indent-none">
+                 <a href="#" onclick="toggleCode(this, 'switch'); return false;" class="uiitem">Show Code</a><div id="switch" style="display:none;">
+<pre class="prettyprint">
+case 1:
+{
+     Console.WriteLine("Enter journal password");
+     string password = Console.ReadLine();
+
+     break;
+}
+</pre>
+                 </div>
+             </p>
+         </li>
+
+
+         <li>
+           Now that we have the password, lets pass it into the <code>UnlockJournal</code> method and display either a success or failure message.
+             <p class="hintblock"><b>Hint:</b> <code>UnlockJournal</code> returns a bool. Use it to figure out if the password was correct or incorrect.</p>
+             <p class="indent-none">
+                 <a href="#" onclick="toggleCode(this, 'case'); return false;" class="uiitem">Show Code</a><div id="case" style="display:none;">
+<pre class="prettyprint">
+case 1:
+{
+     Console.WriteLine("Enter journal password");
+     string password = Console.ReadLine();
+     if (myJournal.UnlockJournal(password))
+     {
+          Console.WriteLine("You opened the journal");
+     }
+     else
+     {
+          Console.WriteLine("Incorrect password");
+     }
+     break;
+}
+</pre>
+                 </div>
+             </p>
+         </li>
+
+          <li>
+              Next, lets implement the "Create entry" option. Remember our journal only supports
+              one journal entry, which is exposed through the <code>Entry</code> property. Before
+              we can store the entry we first have to check to see if the journal is locked.
+              If the journal is locked, display an error message. If the journal is unlocked,
+              prompt the user to enter the journal entry text.
+
+              <p class="hintblock"><b>Hint:</b> <code>Entry</code> will be <code>null</code> if the journal is locked.</p>
+              <p class="indent-none">
+                  <a href="#" onclick="toggleCode(this, 'entrytext'); return false;" class="uiitem">Show Code</a><div id="entrytext" style="display:none;">
+<pre class="prettyprint">
+case 2:
+{
+     if (myJournal.Entry == null)
+     {
+          Console.WriteLine("You must unlock the journal first");
+          break;
+     }
+     else
+     {
+          Console.WriteLine("Enter journal text");
+          string journalMessage = Console.ReadLine();
+     }
+     break;
+}
+</pre>
+</div>
+          </li>
+          <li>
+              Now that we have the entry text lets store it inside of our journal.
+              <p class="indent-none">
+                  <a href="#" onclick="toggleCode(this, 'entryprop'); return false;" class="uiitem">Show Code</a><div id="entryprop" style="display:none;">
+<pre class="prettyprint">
+case 2:
+{
+     ...
+     else
+     {
+          Console.WriteLine("Enter journal text");
+          string journalMessage = Console.ReadLine();
+
+          myJournal.Entry.Text = journalMessage;
+     }
+     break;
+}
+</pre>
+                  </div>
+</li>
+          <li>
+              Next, lets implement the "Read entry" option. Once again we only want the user
+              to be able to read the journal if its unlocked. If the journal is unlocked, print the
+              text to the console. You should also print the last edit date and time.
+              <p class="hintblock"><b>Hint:</b> You can use the <code>ToShortDateString</code> and <code>ToLongTimeString</code> methods to get a string form of the date and time.</p>
+
+              <p class="indent-none">
+                  <a href="#" onclick="toggleCode(this, 'read'); return false;" class="uiitem">Show Code</a><div id="read" style="display:none;">
+<pre class="prettyprint">
+case 3:
+{
+     if (myJournal.Entry == null)
+     {
+          Console.WriteLine("You must unlock the journal first");
+          break;
+     }
+     else
+     {
+          Console.WriteLine(myJournal.Entry.Text);
+          Console.WriteLine("Last Edit: " + myJournal.Entry.LastEditTime.ToShortDateString() + " " + myJournal.Entry.LastEditTime.ToLongTimeString());
+     }
+     break;
+}
+</pre>
+                  </div>
+</li>
+
+          <li>
+              Finally, lets implement the lock feature. call the <code>LockJournal</code> method.
+              <p class="indent-none">
+                  <a href="#" onclick="toggleCode(this, 'lock'); return false;" class="uiitem">Show Code</a><div id="lock" style="display:none;">
+<pre class="prettyprint">
+case 4:
+{
+     myJournal.LockJournal();
+     break;
+}
+</pre>
+                  </div>
+</li>
+      
+      </ol>
+
+           <h2>Add some console color</h2>
+           <p>
+              The core application is complete but now lets spice up the application with some color.
+           </p>
+           <ol>
+               <li>
+                   Before you print any negative message change the console color to red. For example,
+                   if the user types the wrong password, display the error message in red. To change the console color,
+                   use the <code>ForegroundColor</code> property.
+                   <p class="indent-none">
+                       <a href="#" onclick="toggleCode(this, 'red'); return false;" class="uiitem">Show Code</a><div id="red" style="display:none;">
+<pre class="prettyprint">
+...
+else
+{
+     Console.ForegroundColor = ConsoleColor.Red;
+     Console.WriteLine("Incorrect password");
+}
+break;
+</pre>
+                       </div>
+</li>
+               <li>
+                   Go through the application code and add color to where you see fit.
+               </li>
+               <li>
+                   Everytime you change the console color, it doesn't reset. Lets reset the console color
+                   after every command. Go to the end of the <code>switch</code> statement
+                   and call the <code>ResetColor</code> method on the console.
+                   <p class="indent-none">
+                       <a href="#" onclick="toggleCode(this, 'reset'); return false;" class="uiitem">Show Code</a><div id="reset" style="display:none;">
+<pre class="prettyprint">
+switch (choice)
+{
+  ...
+}
+Console.ResetColor();
+</pre>
+                       </div>
+</li>
+               <li>
+                   At this point the application is complete, run it and see the results.
+               </li>
+           </ol>
+     
+     
+		<!-- - - - - - - - - Summary - - - - - - - - -->
+      <h1>Summary</h1>
+      <p>
+   		In this lab exercise, you finished building the journal application by creating methods and
+          invoking them inside of our console menu.
+     </p>
+
+		<div class="align-right">
+			<a href="../Start%20Here.html">Go Back</a>
+		</div>
+
+	</section>
+
+    <script src="./res/js/jquery.min.js"></script>
+    <script src="./res/js/prettify.js"></script>
+    <script src="./res/js/script.js"></script>
+
+    <footer>Copyright (C) 2018 Xamarin Inc., Microsoft.</footer>
+</body>
+</html>
